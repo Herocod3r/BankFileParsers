@@ -10,9 +10,11 @@ namespace BankFileParsers.Example
         static void Main()
         {
             var parser = new BaiParser();
-
-            const string fileName = @"BAI-sample.txt";
-            var bai = parser.Parse(fileName);
+            var currentProjectDirectory =GetParentDirectoryByLevel(Environment.CurrentDirectory,3);
+            
+            string fileName = Path.Combine(currentProjectDirectory, "BAI-sample.txt");
+            using var stream = System.IO.File.OpenRead(fileName);
+            var bai = parser.Parse(stream);
             var trans = BaiTranslator.Translate(bai);
 
             var summary = BaiTranslator.GetSummaryInformation(trans);
@@ -46,6 +48,16 @@ namespace BankFileParsers.Example
             // It can be just a dictionary key
             //var csv = detail.ExportToCsv(new List<string>{"PAYMENT ID"}, new List<string>());
             File.WriteAllText(@"BAI-sample.csv", csv);
+        }
+
+        private static string GetParentDirectoryByLevel(string path,int level)
+        {
+            for (int i = 0; i < level; i++)
+            {
+                path = Directory.GetParent(path).FullName;
+            }
+
+            return path;
         }
     }
 }

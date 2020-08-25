@@ -16,6 +16,23 @@ namespace BankFileParsers
             return _Parse();
         }
 
+        public BaiFile Parse(Stream stream)
+        {
+            if(stream == null) throw new ArgumentNullException("stream");
+            if(!stream.CanRead) throw new ArgumentException("Stream cannot be read from");
+            var lines = new List<string>();
+            using (var reader = new StreamReader(stream))
+            {
+                while (reader.Peek() >= 0)
+                {
+                    lines.Add(reader.ReadLine());
+                }
+            }
+
+            _data = lines.ToArray();
+            return _Parse();
+        }
+
         public void Write(string fileName, BaiFile data)
         {
             var lines = new List<string>();

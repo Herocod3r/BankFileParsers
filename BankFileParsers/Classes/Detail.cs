@@ -75,8 +75,8 @@ namespace BankFileParsers
                     break;
             }
 
-            BankReferenceNumber = stack.Pop().ToString();
-            CustomerReferenceNumber = stack.Pop().ToString();
+            BankReferenceNumber = stack.Count > 0 ? stack.Pop().ToString() : string.Empty;
+            CustomerReferenceNumber = stack.Count > 0 ? stack.Pop().ToString() : string.Empty;
             // What's left on the stack?
             Text = LeftoverStackToString(stack);
 

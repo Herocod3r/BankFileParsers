@@ -23,7 +23,7 @@ namespace BankFileParsers
             var addDay = hour == "24";
             if (addDay) dateString = dateString.Substring(0, hourPos) + "00" + dateString.Substring(hourPos + 2);
 
-            var dateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
+            DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime);
             if (addDay) dateTime += TimeSpan.FromHours(24);
 
             return dateTime;
